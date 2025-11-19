@@ -1,8 +1,8 @@
 namespace AnvilEditor
 {
-    public partial class Form1 : Form
+    public partial class AnvilEditor : Form
     {
-        public Form1()
+        public AnvilEditor()
         {
             InitializeComponent();
         }

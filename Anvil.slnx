@@ -1,3 +1,9 @@
 <Solution>
+  <Configurations>
+    <Platform Name="Any CPU" />
+    <Platform Name="x64" />
+    <Platform Name="x86" />
+  </Configurations>
+  <Project Path="AnvilCore/AnvilCore.vcxproj" Id="a25c9be6-a3bf-4c66-8a24-0a6c7e35c72c" />
   <Project Path="AnvilEditor/AnvilEditor.csproj" />
 </Solution>
