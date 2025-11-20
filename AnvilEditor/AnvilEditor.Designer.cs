@@ -28,18 +28,43 @@
         /// </summary>
         private void InitializeComponent()
         {
+            LogBox = new ListBox();
+            Button = new Button();
             SuspendLayout();
+            // 
+            // LogBox
+            // 
+            LogBox.FormattingEnabled = true;
+            LogBox.Location = new Point(114, 270);
+            LogBox.Name = "LogBox";
+            LogBox.Size = new Size(494, 94);
+            LogBox.TabIndex = 0;
+            // 
+            // Button
+            // 
+            Button.Location = new Point(302, 121);
+            Button.Name = "Button";
+            Button.Size = new Size(126, 23);
+            Button.TabIndex = 1;
+            Button.Text = "Click for message";
+            Button.UseVisualStyleBackColor = true;
+            Button.Click += Button_Click;
             // 
             // AnvilEditor
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(800, 450);
+            Controls.Add(Button);
+            Controls.Add(LogBox);
             Name = "AnvilEditor";
             Text = "AnvilEditor";
             ResumeLayout(false);
         }
 
         #endregion
+
+        private ListBox LogBox;
+        private Button Button;
     }
 }
