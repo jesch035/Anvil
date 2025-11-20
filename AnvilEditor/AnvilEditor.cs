@@ -17,11 +17,13 @@ namespace AnvilEditor
         private void AddLog(string message)
         {
             LogBox.Items.Add(message);
+            LogBox.TopIndex = LogBox.Items.Count - 1;
         }
 
         public AnvilEditor()
         {
             InitializeComponent();
+            logCallback = OnLogReceived;
             Interop.SetLogCallback(logCallback);
         }
 

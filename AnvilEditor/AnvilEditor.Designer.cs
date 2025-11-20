@@ -35,9 +35,9 @@
             // LogBox
             // 
             LogBox.FormattingEnabled = true;
-            LogBox.Location = new Point(114, 270);
+            LogBox.Location = new Point(12, 344);
             LogBox.Name = "LogBox";
-            LogBox.Size = new Size(494, 94);
+            LogBox.Size = new Size(776, 94);
             LogBox.TabIndex = 0;
             // 
             // Button
