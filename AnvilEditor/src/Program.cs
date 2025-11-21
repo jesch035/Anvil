@@ -1,4 +1,4 @@
-namespace AnvilEditor
+namespace AnvilEditor.src
 {
     internal static class Program
     {

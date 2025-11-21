@@ -1,8 +1,10 @@
+using AnvilEditor.src;
+
 namespace AnvilEditor
 {
     public partial class AnvilEditor : Form
     {
-        private Interop.LogCallback logCallback;
+        private Interop.LogCallbackFn logCallback;
         private void OnLogReceived(string message)
         {
             if (InvokeRequired)
@@ -24,7 +26,7 @@ namespace AnvilEditor
         {
             InitializeComponent();
             logCallback = OnLogReceived;
-            Interop.SetLogCallback(logCallback);
+            Interop.InitWinFormsLog(logCallback);
         }
 
         private void Button_Click(object sender, EventArgs e)
