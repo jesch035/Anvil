@@ -26,7 +26,7 @@ namespace AnvilEditor
         {
             InitializeComponent();
             logCallback = OnLogReceived;
-            Interop.InitWinFormsLog(logCallback);
+            Interop.InitEngineCore(logCallback);
         }
 
         private void Button_Click(object sender, EventArgs e)

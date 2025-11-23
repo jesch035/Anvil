@@ -9,7 +9,7 @@ namespace AnvilEditor.src
         public delegate void LogCallbackFn(string message);
 
         [DllImport("AnvilCore.dll", CallingConvention = CallingConvention.Cdecl)]
-        public static extern void InitWinFormsLog(LogCallbackFn callback);
+        public static extern void InitEngineCore(LogCallbackFn callback);
 
         [DllImport("AnvilCore.dll", CallingConvention = CallingConvention.Cdecl)]
         public static extern void TestLoggingFunction();

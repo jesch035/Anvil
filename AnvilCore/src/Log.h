@@ -3,34 +3,60 @@
 #include <spdlog/sinks/base_sink.h>
 #include <mutex>
 
-typedef void(*LogCallbackFn)(const char* message);
+#include "Sinks.h"
 
-class WinFormsSink : public spdlog::sinks::base_sink<std::mutex>
+enum class LogLevel
 {
-protected:
-	void sink_it_(const spdlog::details::log_msg& msg) override;
-
-	void flush_() override {}
+	Trace,
+	Info,
+	Warn,
+	Error
 };
 
+template<typename T>
 class Logger
 {
 public:
-	static Logger& Get()
+	static Logger<T>& Get()
 	{
-		static Logger logger;
+		static Logger<T> logger;
 		return logger;
 	}
 
-	std::shared_ptr<WinFormsSink> m_WinFormsSink = nullptr;
-	std::shared_ptr<spdlog::logger> m_WinFormsLogger = nullptr;
+	template<typename... Args>
+	void Init(Args&&... args)
+	{
+		m_Sink = std::make_shared<T>(std::forward<Args>(args)...);
+		m_Logger = std::make_shared<spdlog::logger>("Default", m_Sink);
+	}
+
+	template<typename S = std::string, typename... Args>
+	void Init(const S& name, Args&&... args)
+	{
+		m_Sink = std::make_shared<T>(std::forward<Args>(args)...);
+		m_Logger = std::make_shared<spdlog::logger>(name, m_Sink);
+	}
+
+	template<typename... Args>
+	void Log(LogLevel level, fmt::format_string<Args...> fmt, Args&&... args)
+	{
+		switch (level)
+		{
+		case LogLevel::Trace: m_Logger->trace(fmt, std::forward<Args>(args)...); break;
+		case LogLevel::Info: m_Logger->info(fmt, std::forward<Args>(args)...); break;
+		case LogLevel::Warn: m_Logger->warn(fmt, std::forward<Args>(args)...); break;
+		case LogLevel::Error: m_Logger->error(fmt, std::forward<Args>(args)...); break;
+		}
+	}
+private:
+	std::shared_ptr<T> m_Sink = nullptr;
+	std::shared_ptr<spdlog::logger> m_Logger = nullptr;
 
 	LogCallbackFn m_CallbackFn = nullptr;
 
-private:
 	Logger() {}
 	Logger(const Logger&) = delete;
 	Logger& operator=(const Logger&) = delete;
 };
 
-#define LOG_EDITOR_INFO(...) Logger::Get().m_WinFormsLogger->info(__VA_ARGS__)
+#define LOG_EDITOR_INFO(...) Logger<EditorSink>::Get().Log(LogLevel::Info, __VA_ARGS__)

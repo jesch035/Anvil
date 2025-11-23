@@ -22,10 +22,11 @@
     <ClInclude Include="src\Core.h" />
     <ClInclude Include="src\Exports.h" />
     <ClInclude Include="src\Log.h" />
+    <ClInclude Include="src\Sinks.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Exports.cpp" />
-    <ClCompile Include="src\Log.cpp" />
+    <ClCompile Include="src\Sinks.cpp" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>18.0</VCProjectVersion>
