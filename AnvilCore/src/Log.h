@@ -1,9 +1,7 @@
 #pragma once
 #include <spdlog/spdlog.h>
-#include <spdlog/sinks/base_sink.h>
-#include <mutex>
-
-#include "Sinks.h"
+#include <vector>
+#include <cassert>
 
 enum class LogLevel
 {
@@ -13,50 +11,45 @@ enum class LogLevel
 	Error
 };
 
-template<typename T>
 class Logger
 {
 public:
-	static Logger<T>& Get()
+	static void Init(const std::string& name, std::vector<spdlog::sink_ptr>&& sinks)
 	{
-		static Logger<T> logger;
-		return logger;
+		assert(!m_Logger && "Assertion: Log already initialized");
+		if (m_Logger)
+			return;
+
+		m_Sinks = std::move(sinks);
+		if (m_Logger = std::make_shared<spdlog::logger>(name, m_Sinks.begin(), m_Sinks.end()))
+			m_Logger->set_level(spdlog::level::trace);
 	}
 
 	template<typename... Args>
-	void Init(Args&&... args)
+	static void Log(LogLevel level, fmt::format_string<Args...> fmt, Args&&... args)
 	{
-		m_Sink = std::make_shared<T>(std::forward<Args>(args)...);
-		m_Logger = std::make_shared<spdlog::logger>("Default", m_Sink);
-	}
-
-	template<typename S = std::string, typename... Args>
-	void Init(const S& name, Args&&... args)
-	{
-		m_Sink = std::make_shared<T>(std::forward<Args>(args)...);
-		m_Logger = std::make_shared<spdlog::logger>(name, m_Sink);
-	}
-
-	template<typename... Args>
-	void Log(LogLevel level, fmt::format_string<Args...> fmt, Args&&... args)
-	{
-		switch (level)
+		assert(m_Logger && "Assertion: Log not initialized");
+		if (m_Logger)
 		{
-		case LogLevel::Trace: m_Logger->trace(fmt, std::forward<Args>(args)...); break;
-		case LogLevel::Info: m_Logger->info(fmt, std::forward<Args>(args)...); break;
-		case LogLevel::Warn: m_Logger->warn(fmt, std::forward<Args>(args)...); break;
-		case LogLevel::Error: m_Logger->error(fmt, std::forward<Args>(args)...); break;
+			switch (level)
+			{
+			case LogLevel::Trace: m_Logger->trace(fmt, std::forward<Args>(args)...); break;
+			case LogLevel::Info: m_Logger->info(fmt, std::forward<Args>(args)...); break;
+			case LogLevel::Warn: m_Logger->warn(fmt, std::forward<Args>(args)...); break;
+			case LogLevel::Error: m_Logger->error(fmt, std::forward<Args>(args)...); break;
+			}
 		}
 	}
 private:
-	std::shared_ptr<T> m_Sink = nullptr;
-	std::shared_ptr<spdlog::logger> m_Logger = nullptr;
-
-	LogCallbackFn m_CallbackFn = nullptr;
-
-	Logger() {}
+	Logger() = delete;
 	Logger(const Logger&) = delete;
 	Logger& operator=(const Logger&) = delete;
+
+	static inline std::vector<spdlog::sink_ptr> m_Sinks;
+	static inline std::shared_ptr<spdlog::logger> m_Logger;
 };
 
-#define LOG_EDITOR_INFO(...) Logger<EditorSink>::Get().Log(LogLevel::Info, __VA_ARGS__)
+#define LOG_TRACE(...) Logger::Log(LogLevel::Trace, __VA_ARGS__)
+#define LOG_INFO(...) Logger::Log(LogLevel::Info, __VA_ARGS__)
+#define LOG_WARN(...) Logger::Log(LogLevel::Warn, __VA_ARGS__)
+#define LOG_ERROR(...) Logger::Log(LogLevel::Error, __VA_ARGS__)

@@ -1,11 +1,15 @@
 #include "Exports.h"
+#include "Log.h"
+#include <memory>
 
 void InitEngineCore(LogCallbackFn callback)
 {
-	Logger<EditorSink>::Get().Init("Core", callback);
+	Logger::Init("Core", { std::make_shared<EditorSink>(callback) });
 }
 
 void TestLoggingFunction()
 {
-	LOG_EDITOR_INFO("Colbertson");
+	uint8_t x = 5;
+	uint8_t y = 6;
+	LOG_TRACE("Numbers: {}, {}", x, y);
 }

@@ -1,5 +1,5 @@
 #pragma once
-#include "Log.h"
+#include "Sinks.h"
 #include "Core.h"
 
 ANVIL_EXPORT void InitEngineCore(LogCallbackFn cb);
