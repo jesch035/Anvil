@@ -1,3 +1,4 @@
+#include "../pch.h"
 #include "Sinks.h"
 
 void CallbackSink::sink_it_(const spdlog::details::log_msg& msg)

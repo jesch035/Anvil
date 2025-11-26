@@ -1,6 +1,6 @@
+#include "pch.h"
 #include "Exports.h"
 #include "Logger/Logger.h"
-#include <memory>
 
 void InitEngineCore(uint32_t sinksAvailable, LogCallbackFn callback)
 {

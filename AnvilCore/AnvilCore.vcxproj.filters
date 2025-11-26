@@ -27,12 +27,18 @@
     <ClInclude Include="src\Logger\Sinks.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="src\pch.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Exports.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\Logger\Sinks.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\pch.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
