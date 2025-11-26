@@ -25,8 +25,10 @@ namespace AnvilEditor
         public AnvilEditor()
         {
             InitializeComponent();
+
             logCallback = OnLogReceived;
-            Interop.InitEngineCore(logCallback);
+            Interop.SinkFlags sinkFlags = Interop.SinkFlags.CallbackSink;
+            Interop.InitEngineCore(sinkFlags, logCallback);
         }
 
         private void Button_Click(object sender, EventArgs e)

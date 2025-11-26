@@ -25,6 +25,8 @@ public:
 			m_Logger->set_level(spdlog::level::trace);
 	}
 
+	// TODO: add a way to add/remove sinks 
+
 	template<typename... Args>
 	static void Log(LogLevel level, fmt::format_string<Args...> fmt, Args&&... args)
 	{
