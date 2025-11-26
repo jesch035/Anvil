@@ -28,30 +28,19 @@
         /// </summary>
         private void InitializeComponent()
         {
-            LogBox = new ListBox();
-            Button = new Button();
+            Console = new ListBox();
             ToggleConsoleLoggingCheckBox = new CheckBox();
+            SDLViewport = new Panel();
             SuspendLayout();
             // 
-            // LogBox
+            // Console
             // 
-            LogBox.FormattingEnabled = true;
-            LogBox.Location = new Point(14, 459);
-            LogBox.Margin = new Padding(3, 4, 3, 4);
-            LogBox.Name = "LogBox";
-            LogBox.Size = new Size(886, 124);
-            LogBox.TabIndex = 0;
-            // 
-            // Button
-            // 
-            Button.Location = new Point(345, 161);
-            Button.Margin = new Padding(3, 4, 3, 4);
-            Button.Name = "Button";
-            Button.Size = new Size(144, 31);
-            Button.TabIndex = 1;
-            Button.Text = "Click for message";
-            Button.UseVisualStyleBackColor = true;
-            Button.Click += Button_Click;
+            Console.FormattingEnabled = true;
+            Console.Location = new Point(14, 459);
+            Console.Margin = new Padding(3, 4, 3, 4);
+            Console.Name = "Console";
+            Console.Size = new Size(886, 124);
+            Console.TabIndex = 0;
             // 
             // ToggleConsoleLoggingCheckBox
             // 
@@ -66,25 +55,34 @@
             ToggleConsoleLoggingCheckBox.UseVisualStyleBackColor = true;
             ToggleConsoleLoggingCheckBox.CheckedChanged += ToggleConsoleLoggingCheckBox_CheckedChanged;
             // 
+            // SDLViewport
+            // 
+            SDLViewport.Location = new Point(12, 12);
+            SDLViewport.Name = "SDLViewport";
+            SDLViewport.Size = new Size(890, 410);
+            SDLViewport.TabIndex = 4;
+            // 
             // AnvilEditor
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(914, 600);
+            Controls.Add(SDLViewport);
             Controls.Add(ToggleConsoleLoggingCheckBox);
-            Controls.Add(Button);
-            Controls.Add(LogBox);
+            Controls.Add(Console);
             Margin = new Padding(3, 4, 3, 4);
             Name = "AnvilEditor";
             Text = "AnvilEditor";
+            FormClosed += AnvilEditor_FormClosed;
+            Load += AnvilEditor_Load;
             ResumeLayout(false);
             PerformLayout();
         }
 
         #endregion
 
-        private ListBox LogBox;
-        private Button Button;
+        private ListBox Console;
         private CheckBox ToggleConsoleLoggingCheckBox;
+        private Panel SDLViewport;
     }
 }

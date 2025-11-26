@@ -17,25 +17,29 @@ namespace AnvilEditor
 
         private void AddLog(string message)
         {
-            LogBox.Items.Add(message);
-            LogBox.TopIndex = LogBox.Items.Count - 1;
+            Console.Items.Add(message);
+            Console.TopIndex = Console.Items.Count - 1;
         }
 
         public AnvilEditor()
         {
             InitializeComponent();
-
-            Interop.InitEngineCore(Interop.SinkFlags.CallbackSink, OnLogReceived);
         }
 
-        private void Button_Click(object sender, EventArgs e)
+        private void AnvilEditor_Load(object sender, EventArgs e)
         {
-            Interop.TestLoggingFunction();
+            Interop.InitCoreLogger(Interop.SinkFlags.CallbackSink, OnLogReceived);
+            Interop.InitEditorSDL(SDLViewport.Handle, SDLViewport.Width, SDLViewport.Height);
         }
 
         private void ToggleConsoleLoggingCheckBox_CheckedChanged(object sender, EventArgs e)
         {
             Interop.ToggleSinkLogs(Interop.SinkFlags.CallbackSink);
+        }
+
+        private void AnvilEditor_FormClosed(object sender, FormClosedEventArgs e)
+        {
+            Interop.QuitSDL();
         }
     }
 }

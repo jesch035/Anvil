@@ -2,7 +2,11 @@
 #include "Exports.h"
 #include "Logger/Logger.h"
 
-void InitEngineCore(uint32_t sinksAvailable, LogCallbackFn callback)
+#include <SDL3/SDL.h>
+
+static SDL_GPUDevice* g_Device = nullptr;
+
+void InitCoreLogger(uint32_t sinksAvailable, LogCallbackFn callback)
 {
 	std::vector<spdlog::sink_ptr> sinks;
 	sinks.reserve(4);
@@ -13,14 +17,35 @@ void InitEngineCore(uint32_t sinksAvailable, LogCallbackFn callback)
 	Logger::Init("Core", std::move(sinks), sinksAvailable);
 }
 
-void TestLoggingFunction()
+#ifdef _WIN32
+ANVIL_EXPORT void InitEditorSDL(HWND hwnd, int width, int height)
 {
-	uint8_t x = 5;
-	uint8_t y = 6;
-	LOG_TRACE("Numbers: {}, {}", x, y);
+	if (!SDL_Init(SDL_INIT_VIDEO))
+	{
+		LOG_ERROR("SDL init failed!");
+		return;
+	}
+	LOG_INFO("SDL initialized");
+
+
+	if (!(g_Device = SDL_CreateGPUDevice(SDL_GPU_SHADERFORMAT_DXIL, false, nullptr)))
+	{
+		LOG_ERROR("Failed to create GPU device!");
+		return;
+	}
+	LOG_INFO("GPU device created");
+
+	// TODO: Get clear color to render to winforms panel
+
 }
+#endif
 
 void ToggleSinkLogs(uint32_t sinks)
 {
 	Logger::ToggleSinkLogs(sinks);
+}
+
+void QuitSDL()
+{
+	SDL_DestroyGPUDevice(g_Device);
 }
