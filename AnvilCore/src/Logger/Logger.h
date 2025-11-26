@@ -14,7 +14,7 @@ enum class LogLevel
 class Logger
 {
 public:
-	static void Init(const std::string& name, std::vector<spdlog::sink_ptr>&& sinks)
+	static void Init(const std::string& name, std::vector<spdlog::sink_ptr>&& sinks, uint32_t sinksAvailable)
 	{
 		assert(!m_Logger && "Assertion: Log already initialized");
 		if (m_Logger)
@@ -23,9 +23,19 @@ public:
 		m_Sinks = std::move(sinks);
 		if (m_Logger = std::make_shared<spdlog::logger>(name, m_Sinks.begin(), m_Sinks.end()))
 			m_Logger->set_level(spdlog::level::trace);
+
+		m_EnabledSinks = sinksAvailable;
 	}
 
-	// TODO: add a way to add/remove sinks 
+	static bool AreSinksEnabled(uint32_t sinks)
+	{
+		return (m_EnabledSinks & static_cast<uint32_t>(sinks)) != 0;
+	}
+
+	static void ToggleSinkLogs(uint32_t sinks)
+	{
+		m_EnabledSinks ^= sinks;
+	}
 
 	template<typename... Args>
 	static void Log(LogLevel level, fmt::format_string<Args...> fmt, Args&&... args)
@@ -47,6 +57,7 @@ private:
 	Logger(const Logger&) = delete;
 	Logger& operator=(const Logger&) = delete;
 
+	static inline uint32_t m_EnabledSinks;
 	static inline std::vector<spdlog::sink_ptr> m_Sinks;
 	static inline std::shared_ptr<spdlog::logger> m_Logger;
 };

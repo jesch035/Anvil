@@ -16,9 +16,12 @@ namespace AnvilEditor.src
         public delegate void LogCallbackFn(string message);
 
         [DllImport("AnvilCore.dll", CallingConvention = CallingConvention.Cdecl)]
-        public static extern void InitEngineCore(SinkFlags sinkFlags, LogCallbackFn callback);
+        public static extern void InitEngineCore(SinkFlags sinksAvailable, LogCallbackFn callback);
 
         [DllImport("AnvilCore.dll", CallingConvention = CallingConvention.Cdecl)]
         public static extern void TestLoggingFunction();
+
+        [DllImport("AnvilCore.dll", CallingConvention = CallingConvention.Cdecl)]
+        public static extern void ToggleSinkLogs(SinkFlags sinks);
     }
 }

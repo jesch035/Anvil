@@ -15,7 +15,7 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="src\Log.h">
+    <ClInclude Include="src\Logger\Logger.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\Core.h">
@@ -24,7 +24,7 @@
     <ClInclude Include="src\Exports.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\Sinks.h">
+    <ClInclude Include="src\Logger\Sinks.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
@@ -32,7 +32,7 @@
     <ClCompile Include="src\Exports.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\Sinks.cpp">
+    <ClCompile Include="src\Logger\Sinks.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

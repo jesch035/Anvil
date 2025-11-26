@@ -4,7 +4,6 @@ namespace AnvilEditor
 {
     public partial class AnvilEditor : Form
     {
-        private Interop.LogCallbackFn logCallback;
         private void OnLogReceived(string message)
         {
             if (InvokeRequired)
@@ -26,14 +25,17 @@ namespace AnvilEditor
         {
             InitializeComponent();
 
-            logCallback = OnLogReceived;
-            Interop.SinkFlags sinkFlags = Interop.SinkFlags.CallbackSink;
-            Interop.InitEngineCore(sinkFlags, logCallback);
+            Interop.InitEngineCore(Interop.SinkFlags.CallbackSink, OnLogReceived);
         }
 
         private void Button_Click(object sender, EventArgs e)
         {
             Interop.TestLoggingFunction();
+        }
+
+        private void ToggleConsoleLoggingCheckBox_CheckedChanged(object sender, EventArgs e)
+        {
+            Interop.ToggleSinkLogs(Interop.SinkFlags.CallbackSink);
         }
     }
 }

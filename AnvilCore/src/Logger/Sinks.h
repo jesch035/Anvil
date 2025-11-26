@@ -1,5 +1,6 @@
 #pragma once
 #include <spdlog/sinks/base_sink.h>
+#include "Logger.h"
 
 enum class SinkFlags : uint32_t
 {
