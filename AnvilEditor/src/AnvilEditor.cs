@@ -30,6 +30,7 @@ namespace AnvilEditor
         {
             Interop.InitCoreLogger(Interop.SinkFlags.CallbackSink, OnLogReceived);
             Interop.InitEditorSDL(SDLViewport.Handle, SDLViewport.Width, SDLViewport.Height);
+            Interop.StartGameLoop();
         }
 
         private void ToggleConsoleLoggingCheckBox_CheckedChanged(object sender, EventArgs e)
@@ -39,6 +40,7 @@ namespace AnvilEditor
 
         private void AnvilEditor_FormClosed(object sender, FormClosedEventArgs e)
         {
+            Interop.StopGameLoop();
             Interop.QuitSDL();
         }
     }

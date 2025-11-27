@@ -25,6 +25,12 @@ namespace AnvilEditor.src
         public static extern void ToggleSinkLogs(SinkFlags sinks);
 
         [DllImport("AnvilCore.dll", CallingConvention = CallingConvention.Cdecl)]
+        public static extern void StartGameLoop();
+
+        [DllImport("AnvilCore.dll", CallingConvention = CallingConvention.Cdecl)]
+        public static extern void StopGameLoop();
+
+        [DllImport("AnvilCore.dll", CallingConvention = CallingConvention.Cdecl)]
         public static extern void QuitSDL();
     }
 }
