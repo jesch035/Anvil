@@ -21,7 +21,7 @@
     <ClInclude Include="src\Core.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\Exports.h">
+    <ClInclude Include="src\Exports\Exports.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\Logger\Sinks.h">
@@ -38,7 +38,7 @@
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="src\Exports.cpp">
+    <ClCompile Include="src\Exports\Exports.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\Logger\Sinks.cpp">

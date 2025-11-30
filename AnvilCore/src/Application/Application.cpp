@@ -8,6 +8,16 @@ void Application::Iterate()
 		m_Running = false;
 }
 
+void Application::PollEvents()
+{
+	/*SDL_Event event;
+	while (SDL_PollEvent(&event))
+	{
+		switch (event.type)
+
+	}*/
+}
+
 bool Application::Tick()
 {
 	Update();

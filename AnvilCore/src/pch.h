@@ -6,6 +6,8 @@
 #include <atomic>
 #include <cstdint>
 #include <array>
+#include <queue>
+#include <variant>
 
 #ifdef _WIN32
 #include <Windows.h>

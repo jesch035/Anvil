@@ -1,6 +1,7 @@
 #pragma once
 #include <SDL3/SDL.h>
 #include <thread>
+#include "../Logger/Logger.h"
 
 class Application
 {
@@ -32,11 +33,15 @@ public:
 	{
 		m_Running = false;
 
+		LOG_INFO("Stopping game loop");
+
 		if (m_GameLoopThread.joinable())
 			m_GameLoopThread.join();
 	}
 
 	void Iterate();
+
+	void PollEvents();
 
 	bool Tick();
 		void Update();

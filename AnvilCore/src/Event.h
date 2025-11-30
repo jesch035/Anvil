@@ -2,46 +2,88 @@
 #include <cstdint>
 #include <vector>
 #include <array>
+#include <queue>
+#include <variant>
+#include <functional>
 
-template<typename T>
-struct EventID
+struct Event1
 {
-	static const uint32_t value;
+	int x;
 };
 
-template<typename T>
-const uint32_t EventID<T>::value = []()
-	{
-		static uint32_t counter = 0;
-		return counter++;
-	};
+struct Event2
+{
+	int x, y;
+};
 
-constexpr uint32_t MAX_EVENT_TYPES = 256;
+struct Event3
+{
+	int x, y, z;
+};
+
+using Event = std::variant<Event1, Event2, Event3>;
+using ListenerFn = std::function<void(const Event&)>;
 
 class EventBus
 {
 public:
-	using ListenerFn = void(*)(const void*);
-
-	template<typename EventType>
-	void Subscribe(void(*func)(const EventType&))
+	template<typename T>
+	void Subscribe(std::function<void(const T& e)> func)
 	{
-		auto wrapper = +[](const void* e)
+		auto wrapper = [func](const Event& e)
 			{
-				func(*static_cast<const EventType*>(e));
+				func(std::get<T>(e));
 			};
 
-		m_Listeners[EventID<EventType>::value].push_back(wrapper);
+		m_Listeners[variant_index<T>()].push_back(wrapper);
 	}
 
-	template<typename EventType>
-	void Emit(const EventType& event) const
+	void Dispatch(const Event& e)
 	{
-		uint32_t id = EventID<EventType>::value;
-		for (auto& function : listeners[id])
-			fn(&event);
+		auto idx = e.index();
+		for (auto& fn : m_Listeners[idx])
+			fn(e);
 	}
 
 private:
-	std::array<std::vector<ListenerFn>, MAX_EVENT_TYPES> m_Listeners;
+	template<typename T>
+	static constexpr std::size_t variant_index() {
+		return detail_variant_index<T, Event>();
+	}
+
+	// Helper to compute type index at compile-time
+	template<typename T, typename Variant, std::size_t I = 0>
+	static consteval std::size_t detail_variant_index() {
+		if constexpr (I == std::variant_size_v<Variant>) {
+			static_assert(I != I, "Type not in variant");
+			return 0;
+		}
+		else if constexpr (std::is_same_v<T, std::variant_alternative_t<I, Variant>>) {
+			return I;
+		}
+		else {
+			return detail_variant_index<T, Variant, I + 1>();
+		}
+	}
+
+	std::array<std::vector<ListenerFn>, std::variant_size_v<Event>> m_Listeners;
+};
+
+class EventQueue {
+public:
+	template<typename T>
+	void Push(const T& e) {
+		m_Events.push(Event(e));
+	}
+
+	void Process(EventBus& bus) {
+		while (!m_Events.empty())
+		{
+			bus.Dispatch(m_Events.front());
+			m_Events.pop();
+		}
+	}
+
+private:
+	std::queue<Event> m_Events;
 };

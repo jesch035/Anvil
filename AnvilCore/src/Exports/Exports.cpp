@@ -1,7 +1,7 @@
-#include "pch.h"
+#include "../pch.h"
 #include "Exports.h"
-#include "Logger/Logger.h"
-#include "Application/Application.h"
+#include "../Logger/Logger.h"
+#include "../Application/Application.h"
 
 #include <SDL3/SDL.h>
 
@@ -70,11 +70,8 @@ void StartGameLoop()
 	s_App.Start([]
 		{
 			LOG_INFO("Starting game loop");
-
 			while (s_App.IsRunning())
 				s_App.Iterate();
-
-			LOG_INFO("Stopping game loop");
 		});
 }
 
