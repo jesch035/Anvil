@@ -10,12 +10,12 @@ void Application::Iterate()
 
 void Application::PollEvents()
 {
-	/*SDL_Event event;
+	SDL_Event event;
 	while (SDL_PollEvent(&event))
 	{
 		switch (event.type)
 
-	}*/
+	}
 }
 
 bool Application::Tick()

@@ -1,7 +1,9 @@
 #pragma once
 #include <SDL3/SDL.h>
 #include <thread>
+
 #include "../Logger/Logger.h"
+#include "../Events/Event.h"
 
 class Application
 {
@@ -55,4 +57,6 @@ private:
 	SDL_Window* m_Window = nullptr;
 	std::thread m_GameLoopThread;
 	std::atomic<bool> m_Running = false;
+	EventBus bus;
+	EventQueue queue;
 };
